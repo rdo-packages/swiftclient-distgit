@@ -1,0 +1,88 @@
+From 8f1b394325804c23ac18e7f9da6cb56a3b95eed2 Mon Sep 17 00:00:00 2001
+From: Pete Zaitcev <zaitcev@kotori.zaitcev.us>
+Date: Wed, 17 Sep 2014 20:27:05 -0600
+Subject: [PATCH] Stop creating extraneous directories
+
+Cannot help streamlining the code a bit, sorry. But the meat is that
+we should not try to make directories if output path is explicit.
+
+Previously we created directories using the URL path, which is
+obviously wrong if explicit output file is supplied... unless
+a crafty user supplied the same path with -o that is contained
+in the URL path. If anyone was doing such tricks, it's not going
+to work anymore (we are forcing a regression for the sake of
+theoretical correctness here).
+
+Fixes bug: 1369546
+
+Change-Id: Ifce31f2ba233eb55550f3810348bf16bf2447d62
+---
+ swiftclient/service.py | 29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
+
+diff --git a/swiftclient/service.py b/swiftclient/service.py
+index 3cedb1c..fa39ecc 100644
+--- a/swiftclient/service.py
++++ b/swiftclient/service.py
+@@ -1003,18 +1003,18 @@ class SwiftService(object):
+                 fp = None
+                 try:
+                     no_file = options['no_download']
+-                    make_dir = not no_file and out_file != "-"
+                     content_type = headers.get('content-type')
+                     if content_type.split(';', 1)[0] == 'text/directory':
++                        make_dir = not no_file and out_file != "-"
+                         if make_dir and not isdir(path):
+                             mkdirs(path)
+ 
+-                        for _ in obj_body.buffer():
+-                            continue
+                     else:
+-                        dirpath = dirname(path)
+-                        if make_dir and dirpath and not isdir(dirpath):
+-                            mkdirs(dirpath)
++                        make_dir = not (no_file or out_file)
++                        if make_dir:
++                            dirpath = dirname(path)
++                            if dirpath and not isdir(dirpath):
++                                mkdirs(dirpath)
+ 
+                         if not no_file:
+                             if out_file == "-":
+@@ -1023,30 +1023,25 @@ class SwiftService(object):
+                                     'contents': obj_body
+                                 }
+                                 return res
+-                            elif out_file:
++                            if out_file:
+                                 fp = open(out_file, 'wb')
+                             else:
+                                 if basename(path):
+                                     fp = open(path, 'wb')
+                                 else:
+                                     pseudodir = True
+-                                    no_file = True
+-
+-                            for chunk in obj_body.buffer():
+-                                if not no_file:
+-                                    fp.write(chunk)
+ 
+-                        else:
+-                            for _ in obj_body.buffer():
+-                                continue
++                    for chunk in obj_body.buffer():
++                        if fp is not None:
++                            fp.write(chunk)
+ 
+                     finish_time = time()
++
+                 finally:
+                     bytes_read = obj_body.bytes_read()
+                     if fp is not None:
+                         fp.close()
+-                        if 'x-object-meta-mtime' in headers \
+-                                and not options['no_download']:
++                        if 'x-object-meta-mtime' in headers and not no_file:
+                             mtime = float(headers['x-object-meta-mtime'])
+                             if options['out_file'] \
+                                     and not options['out_file'] == "-":

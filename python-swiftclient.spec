@@ -1,15 +1,17 @@
 Name:       python-swiftclient
-Version:    2.1.0
-Release:    2%{?dist}
+Version:    2.3.0
+Release:    1%{?dist}
 Summary:    Client Library for OpenStack Object Storage API
 License:    ASL 2.0
 URL:        http://pypi.python.org/pypi/%{name}
 Source0:    http://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
 
 #
-# patches_base=2.1.0
+# patches_base=2.3.0
 #
-Patch0001: 0001-Remove-builtin-requirements-handling.patch
+Patch0001: 0001-Stop-creating-extraneous-directories.patch
+Patch0002: 0002-Remove-builtin-requirements-handling.patch
+Patch0003: 0003-Patch-docs-to-use-oslo.sphinx.patch
 
 BuildArch:  noarch
 Requires:   python-keystoneclient
@@ -33,6 +35,7 @@ Summary:    Documentation for OpenStack Object Storage API Client
 Group:      Documentation
 
 BuildRequires: python-sphinx
+BuildRequires: python-oslo-sphinx
 
 %description doc
 Documentation for the client library for interacting with Openstack
@@ -42,6 +45,8 @@ Object Storage API.
 %setup -q
 
 %patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
 
 # Let RPM handle the dependencies
 rm -f test-requirements.txt requirements.txt
@@ -76,6 +81,12 @@ rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
 %doc LICENSE doc/build/html
 
 %changelog
+* Thu Sep 18 2014 Pete Zaitcev <zaitcev@redhat.com> 2.3.0-1
+- Update to upstream 2.3.0 (Juno RC)
+- Upstream update includes fix for bz#1126942
+- Upstream update includes support for Keystone v3
+- New build dependency: python-oslo-sphinx
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 

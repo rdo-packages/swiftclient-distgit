@@ -1,4 +1,4 @@
-From a1c8fe92c3dd431a9a6c3a6451cc943dfd2b1baf Mon Sep 17 00:00:00 2001
+From 920fc028fd07925fb03994ce2c23d7e4cb45c3da Mon Sep 17 00:00:00 2001
 From: Jakub Ruzicka <jruzicka@redhat.com>
 Date: Fri, 6 Dec 2013 17:36:12 +0100
 Subject: [PATCH] Remove builtin requirements handling
