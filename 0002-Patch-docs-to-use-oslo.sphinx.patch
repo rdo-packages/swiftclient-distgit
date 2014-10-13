@@ -1,4 +1,4 @@
-From 10f8e21abdef75dc950f6dfba5fa13603af82ad0 Mon Sep 17 00:00:00 2001
+From 00ef927f51859ed8600dcc3ac8bfa45dc57be06e Mon Sep 17 00:00:00 2001
 From: Pete Zaitcev <zaitcev@kotori.zaitcev.us>
 Date: Thu, 18 Sep 2014 19:25:22 -0600
 Subject: [PATCH] Patch docs to use oslo.sphinx
