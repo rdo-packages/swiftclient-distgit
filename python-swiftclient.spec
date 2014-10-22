@@ -1,6 +1,6 @@
 Name:       python-swiftclient
 Version:    2.3.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Client Library for OpenStack Object Storage API
 License:    ASL 2.0
 URL:        http://pypi.python.org/pypi/%{name}
@@ -21,6 +21,10 @@ BuildRequires: python-d2to1
 BuildRequires: python-pbr
 BuildRequires: python-requests
 BuildRequires: python-six
+Requires:      python-simplejson
+Requires:      python-futures
+Requires:      python-requests
+Requires:      python-six
 
 %description
 Client library and command line utility for interacting with Openstack
@@ -50,10 +54,10 @@ rm -f test-requirements.txt requirements.txt
 rm -rf python_swiftclient.egg-info
 
 %build
-%{__python} setup.py build
+%{__python2} setup.py build
 
 %install
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
 
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
 pushd doc
@@ -68,14 +72,18 @@ rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
 %files
 %doc LICENSE README.rst
 %{_bindir}/swift
-%{python_sitelib}/swiftclient
-%{python_sitelib}/*.egg-info
+%{python2_sitelib}/swiftclient
+%{python2_sitelib}/*.egg-info
 %{_mandir}/man1/swift.1*
 
 %files doc
 %doc LICENSE doc/build/html
 
 %changelog
+* Wed Oct 22 2014 Haïkel Guémar <hguemar@fedoraproject.org> - 2.3.1-2
+- Add missing requirements (RHBZ #1154169)
+- Few specs cleanups
+
 * Mon Oct 13 2014 Jakub Ruzicka <jruzicka@redhat.com> 2.3.1-1
 - Update to upstream 2.3.1
 
