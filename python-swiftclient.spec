@@ -1,6 +1,6 @@
 Name:       python-swiftclient
-Version:    2.3.1
-Release:    2%{?dist}
+Version:    2.4.0
+Release:    1%{?dist}
 Summary:    Client Library for OpenStack Object Storage API
 License:    ASL 2.0
 URL:        http://pypi.python.org/pypi/%{name}
@@ -80,6 +80,9 @@ rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
 %doc LICENSE doc/build/html
 
 %changelog
+* Mon Mar 30 2015 Jakub Ruzicka <jruzicka@redhat.com> 2.4.0-1
+- Update to upstream 2.4.0
+
 * Wed Oct 22 2014 Haïkel Guémar <hguemar@fedoraproject.org> - 2.3.1-2
 - Add missing requirements (RHBZ #1154169)
 - Few specs cleanups
