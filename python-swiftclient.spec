@@ -1,13 +1,10 @@
 Name:       python-swiftclient
-Version:    2.4.0
-Release:    2%{?dist}
+Version:    2.6.0
+Release:    1%{?dist}
 Summary:    Client Library for OpenStack Object Storage API
 License:    ASL 2.0
 URL:        http://pypi.python.org/pypi/%{name}
 Source0:    http://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
-
-Patch0001: 0001-Remove-builtin-requirements-handling.patch
-Patch0002: 0002-Patch-docs-to-use-oslo.sphinx.patch
 
 BuildArch:  noarch
 Requires:   python-keystoneclient
@@ -44,9 +41,6 @@ Object Storage API.
 %prep
 %setup -q
 
-%patch0001 -p1
-%patch0002 -p1
-
 # Let RPM handle the dependencies
 rm -f test-requirements.txt requirements.txt
 
@@ -80,6 +74,9 @@ rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
 %doc LICENSE doc/build/html
 
 %changelog
+* Fri Oct 02 2015 Haikel Guemar <hguemar@fedoraproject.org> 2.6.0-1
+- Update to upstream 2.6.0
+
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.4.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
