@@ -1,3 +1,5 @@
-# UUID                                  	Group Name
-#
-06c69b73525cacf8d2f3956bba5af88c3a7bc04a	swiftclient-distgit-ptl
+# UUID          Group Name
+6ddfecad023c6f4fa3ac8c4d2583c502ea675a73 	Non-Interactive Users
+0f7495f9c167e13249389501d1e9b322794599ef       	swiftclient-distgit-core
+06c69b73525cacf8d2f3956bba5af88c3a7bc04a        	swiftclient-distgit-ptl
+global:Registered-Users		Registered Users
