@@ -1,6 +1,8 @@
+%{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+
 Name:       python-swiftclient
-Version:    2.6.0
-Release:    2%{?dist}
+Version:    3.0.0
+Release:    1%{?dist}
 Summary:    Client Library for OpenStack Object Storage API
 License:    ASL 2.0
 URL:        http://pypi.python.org/pypi/%{name}
@@ -39,7 +41,7 @@ Documentation for the client library for interacting with Openstack
 Object Storage API.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{upstream_version}
 
 # Let RPM handle the dependencies
 rm -f test-requirements.txt requirements.txt
@@ -74,83 +76,7 @@ rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
 %doc LICENSE doc/build/html
 
 %changelog
-* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+* Wed Mar 23 2016 Haikel Guemar <hguemar@fedoraproject.org> 3.0.0-
+- Update to 3.0.0
 
-* Fri Oct 02 2015 Haikel Guemar <hguemar@fedoraproject.org> 2.6.0-1
-- Update to upstream 2.6.0
 
-* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.4.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
-
-* Mon Mar 30 2015 Jakub Ruzicka <jruzicka@redhat.com> 2.4.0-1
-- Update to upstream 2.4.0
-
-* Wed Oct 22 2014 Haïkel Guémar <hguemar@fedoraproject.org> - 2.3.1-2
-- Add missing requirements (RHBZ #1154169)
-- Few specs cleanups
-
-* Mon Oct 13 2014 Jakub Ruzicka <jruzicka@redhat.com> 2.3.1-1
-- Update to upstream 2.3.1
-
-* Thu Sep 18 2014 Pete Zaitcev <zaitcev@redhat.com> 2.3.0-1
-- Update to upstream 2.3.0 (Juno RC)
-- Upstream update includes fix for bz#1126942
-- Upstream update includes support for Keystone v3
-- New build dependency: python-oslo-sphinx
-
-* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.1.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
-
-* Thu May 29 2014 Jakub Ruzicka <jruzicka@redhat.com> 2.1.0-1
-- Update to upstream 2.1.0
-- New dependency: python-six
-
-* Thu Feb 27 2014 Jakub Ruzicka <jruzicka@redhat.com> 2.0.2-1
-- Update to upstream 2.0.2
-- Switch from pyOpenSSL to python-requests - update dependencies
-- Remove unneeded dependency: python-simplejson
-
-* Tue Feb 11 2014 Pete Zaitcev <zaitcev@redhat.com> 1.8.0-2
-- Fix the fix for CVE-2013-6395: EBADF, wildcards
-
-* Tue Dec 10 2013 Jakub Ruzicka <jruzicka@redhat.com> 1.8.0-1
-- Update to upstream 1.8.0
-- Add SSL certificate verification by default (CVE-2013-6396)
-- New runtime and build dependency: pyOpenSSL
-- New runtime dependency: python-keystoneclient
-- python-pbr has been removed from runtime by upstream
-
-* Tue Oct 08 2013 Jakub Ruzicka <jruzicka@redhat.com> - 1.7.0-1
-- Update to upstream 1.7.0.
-
-* Mon Sep 02 2013 Jakub Ruzicka <jruzicka@redhat.com> - 1.6.0-1
-- Update to upstream 1.6.0.
-- Include man page.
-- Remove all pbr deps in the patch instead of this spec file.
-
-* Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.5.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
-
-* Mon Jul 22 2013 Jakub Ruzicka <jruzicka@redhat.com> 1.5.0-1
-- Update to upstream 1.5.0 release.
-- Add new build requires: python-pbr, python-d2to1.
-- Remove runtime dependency on python-pbr.
-
-* Mon May 13 2013 Jakub Ruzicka <jruzicka@redhat.com> 1.4.0-1
-- Update to upstream 1.4.0 release.
-
-* Sat Mar 09 2013 Alan Pevec <apevec@redhat.com> 1.3.0-1
-- Update to 1.3.0 release.
-
-* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.0-4
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
-
-* Mon Sep 17 2012 Alan Pevec <apevec@redhat.com> 1.2.0-2
-- conflict with swift-im bz#857900
-
-* Thu Sep 13 2012 Alan Pevec <apevec@redhat.com> 1.2.0-1
-- Update to 1.2.0 release.
-
-* Tue Jul 31 2012 Alan Pevec <apevec@redhat.com> 1.1.1-1
-- Initial release.
