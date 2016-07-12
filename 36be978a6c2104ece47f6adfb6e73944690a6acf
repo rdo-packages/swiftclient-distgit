@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_adc9895c",
+        "filename": "python-swiftclient.spec",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 111
+      },
+      "writtenOn": "2016-07-12T19:17:08Z",
+      "side": 1,
+      "message": "Do we need to put manpages in py3 subpackage also?",
+      "revId": "36be978a6c2104ece47f6adfb6e73944690a6acf",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
