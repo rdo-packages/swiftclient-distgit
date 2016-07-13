@@ -46,7 +46,6 @@ BuildRequires: python3-devel
 BuildRequires: python3-setuptools
 BuildRequires: python3-pbr
 
-Requires:      python3-futures
 Requires:      python3-requests
 Requires:      python3-six
 Requires:      python3-keystoneclient
