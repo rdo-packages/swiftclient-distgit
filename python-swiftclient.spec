@@ -8,7 +8,7 @@
 
 Name:       python-swiftclient
 Version:    3.0.0
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Client Library for OpenStack Object Storage API
 License:    ASL 2.0
 URL:        http://launchpad.net/python-swiftclient/
@@ -129,6 +129,9 @@ install -p -D -m 644 doc/manpages/swift.1 %{buildroot}%{_mandir}/man1/swift.1
 %license LICENSE
 
 %changelog
+* Wed Jul 13 2016 Haikel Guemar <hguemar@fedoraproject.org> - 3.0.0-3
+- Drop python3-futures requirements
+
 * Tue Jul 12 2016 Haikel Guemar <hguemar@fedoraproject.org> - 3.0.0-2
 - Provide python3 subpackage (RHBZ#1309259)
 
