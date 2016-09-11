@@ -7,8 +7,8 @@
 %endif
 
 Name:       python-swiftclient
-Version:    XXX
-Release:    XXX
+Version:    3.1.0
+Release:    1%{?dist}
 Summary:    Client Library for OpenStack Object Storage API
 License:    ASL 2.0
 URL:        http://launchpad.net/python-swiftclient/
@@ -129,3 +129,6 @@ install -p -D -m 644 doc/manpages/swift.1 %{buildroot}%{_mandir}/man1/swift.1
 %license LICENSE
 
 %changelog
+* Sun Sep 11 2016 Haikel Guemar <hguemar@fedoraproject.org> 3.1.0-1
+- Update to 3.1.0
+
