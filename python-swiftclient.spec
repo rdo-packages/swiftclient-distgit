@@ -12,7 +12,7 @@ Release:    XXX
 Summary:    Client Library for OpenStack Object Storage API
 License:    ASL 2.0
 URL:        http://launchpad.net/python-swiftclient/
-Source0:    http://tarballs.openstack.org/%{name}/%{name}-%{version}.tar.gz
+Source0:    https://tarballs.openstack.org/%{name}/%{name}-%{version}.tar.gz
 
 BuildArch:  noarch
 
