@@ -97,12 +97,11 @@ ln -s ./swift-2 %{buildroot}%{_bindir}/swift
 # Delete tests
 rm -fr %{buildroot}%{python2_sitelib}/swiftclient/tests
 
+%{__python2} setup.py build_sphinx -b html
+rm -rf doc/build/html/.{doctrees,buildinfo}
 
-export PYTHONPATH="$( pwd ):$PYTHONPATH"
-sphinx-build -b html doc/source html
-sphinx-build -b man doc/source man
-
-install -p -D -m 644 doc/manpages/swift.1 %{buildroot}%{_mandir}/man1/swift.1
+%{__python2} setup.py build_sphinx -b man
+install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
 
 %files -n python2-%{sname}
 %doc README.rst
@@ -112,7 +111,7 @@ install -p -D -m 644 doc/manpages/swift.1 %{buildroot}%{_mandir}/man1/swift.1
 %{_bindir}/swift
 %{_bindir}/swift-2
 %{_bindir}/swift-%{python2_version}
-%{_mandir}/man1/swift.1.gz
+%{_mandir}/man1/*
 
 %if 0%{?with_python3}
 %files -n python3-%{sname}
@@ -125,7 +124,7 @@ install -p -D -m 644 doc/manpages/swift.1 %{buildroot}%{_mandir}/man1/swift.1
 %endif
 
 %files doc
-%doc html
+%doc doc/build/html
 %license LICENSE
 
 %changelog
