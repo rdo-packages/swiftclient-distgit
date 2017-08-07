@@ -98,7 +98,6 @@ ln -s ./swift-2 %{buildroot}%{_bindir}/swift
 rm -fr %{buildroot}%{python2_sitelib}/swiftclient/tests
 
 
-export PYTHONPATH="$( pwd ):$PYTHONPATH"
 sphinx-build -b html doc/source html
 sphinx-build -b man doc/source man
 
