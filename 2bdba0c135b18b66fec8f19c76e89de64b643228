@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a890539_b9c99a5c",
+        "filename": "python-swiftclient.spec",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 128
+      },
+      "writtenOn": "2017-08-08T13:25:34Z",
+      "side": 1,
+      "message": "There is not with_doc conditional in -doc subpackage in swiftclient.",
+      "revId": "2bdba0c135b18b66fec8f19c76e89de64b643228",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
