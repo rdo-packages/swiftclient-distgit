@@ -7,8 +7,8 @@
 %endif
 
 Name:       python-swiftclient
-Version:    XXX
-Release:    XXX
+Version:    3.4.0
+Release:    1%{?dist}
 Summary:    Client Library for OpenStack Object Storage API
 License:    ASL 2.0
 URL:        http://launchpad.net/python-swiftclient/
@@ -128,3 +128,6 @@ install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
 %license LICENSE
 
 %changelog
+* Fri Aug 11 2017 Alfredo Moralejo <amoralej@redhat.com> 3.4.0-1
+- Update to 3.4.0
+
