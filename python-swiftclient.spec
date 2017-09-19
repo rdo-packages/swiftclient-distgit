@@ -63,6 +63,7 @@ Group:      Documentation
 BuildRequires: python-sphinx
 BuildRequires: python-oslo-sphinx
 BuildRequires: python-futures
+BuildRequires: openstack-macros
 
 %description doc
 Documentation for the client library for interacting with Openstack
@@ -72,7 +73,7 @@ Object Storage API.
 %setup -q -n %{name}-%{upstream_version}
 
 # Let RPM handle the dependencies
-rm -f test-requirements.txt requirements.txt
+%py_req_cleanup
 
 %build
 %py2_build
