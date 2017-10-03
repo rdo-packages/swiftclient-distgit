@@ -6,6 +6,10 @@
 %global with_python3 1
 %endif
 
+%global common_desc \
+Client library and command line utility for interacting with Openstack \
+Object Storage API.
+
 Name:       python-swiftclient
 Version:    XXX
 Release:    XXX
@@ -17,8 +21,7 @@ Source0:    https://tarballs.openstack.org/%{name}/%{name}-%{version}.tar.gz
 BuildArch:  noarch
 
 %description
-Client library and command line utility for interacting with Openstack
-Object Storage API.
+%{common_desc}
 
 %package -n python2-%{sname}
 Summary:    Client Library for OpenStack Object Storage API
@@ -34,8 +37,7 @@ Requires:      python-six
 Requires:      python-keystoneclient
 
 %description -n python2-%{sname}
-Client library and command line utility for interacting with Openstack
-Object Storage API.
+%{common_desc}
 
 %if 0%{?with_python3}
 %package -n python3-%{sname}
@@ -51,8 +53,7 @@ Requires:      python3-six
 Requires:      python3-keystoneclient
 
 %description -n python3-%{sname}
-Client library and command line utility for interacting with Openstack
-Object Storage API.
+%{common_desc}
 %endif
 
 %package doc
