@@ -28,13 +28,17 @@ Summary:    Client Library for OpenStack Object Storage API
 %{?python_provide:%python_provide python2-swiftclient}
 
 BuildRequires: python2-devel
-BuildRequires: python-setuptools
-BuildRequires: python-pbr
+BuildRequires: python2-setuptools
+BuildRequires: python2-pbr
 
+Requires:      python2-requests
+Requires:      python2-six
+Requires:      python2-keystoneclient
+%if 0%{?fedora} > 0
+Requires:      python2-futures
+%else
 Requires:      python-futures
-Requires:      python-requests
-Requires:      python-six
-Requires:      python-keystoneclient
+%endif
 
 %description -n python2-%{sname}
 %{common_desc}
@@ -60,10 +64,14 @@ Requires:      python3-keystoneclient
 Summary:    Documentation for OpenStack Object Storage API Client
 Group:      Documentation
 
-BuildRequires: python-sphinx
-BuildRequires: python-oslo-sphinx
-BuildRequires: python-futures
+BuildRequires: python2-sphinx
+BuildRequires: python2-oslo-sphinx
 BuildRequires: openstack-macros
+%if 0%{?fedora} > 0
+BuildRequires: python2-futures
+%else
+BuildRequires: python2-futures
+%endif
 
 %description doc
 Documentation for the client library for interacting with Openstack
