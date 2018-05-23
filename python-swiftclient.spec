@@ -61,7 +61,10 @@ Summary:    Documentation for OpenStack Object Storage API Client
 Group:      Documentation
 
 BuildRequires: python2-sphinx
+# (TODO) remove oslo-sphinx as BR after a new release is created
+# including https://review.openstack.org/#/c/553433/.
 BuildRequires: python2-oslo-sphinx
+BuildRequires: python2-openstackdocstheme
 BuildRequires: openstack-macros
 BuildRequires: python2-futures
 
