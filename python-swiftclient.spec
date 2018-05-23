@@ -130,3 +130,4 @@ install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
 %license LICENSE
 
 %changelog
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack/python-swiftclient/commit/?id=78b839007294b7c9e7fd0402801775283a4045bc
