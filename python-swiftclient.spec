@@ -1,10 +1,17 @@
+# Macros for py2/py3 compatibility
+%if 0%{?fedora} || 0%{?rhel} > 7
+%global pyver %{python3_pkgversion}
+%else
+%global pyver 2
+%endif
+%global pyver_bin python%{pyver}
+%global pyver_sitelib %python%{pyver}_sitelib
+%global pyver_install %py%{pyver}_install
+%global pyver_build %py%{pyver}_build
+# End of macros for py2/py3 compatibility
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 %global sname swiftclient
-
-%if 0%{?fedora}
-%global with_python3 1
-%endif
 
 %global common_desc \
 Client library and command line utility for interacting with Openstack \
@@ -23,50 +30,36 @@ BuildArch:  noarch
 %description
 %{common_desc}
 
-%package -n python2-%{sname}
+%package -n python%{pyver}-%{sname}
 Summary:    Client Library for OpenStack Object Storage API
-%{?python_provide:%python_provide python2-swiftclient}
+%{?python_provide:%python_provide python%{pyver}-swiftclient}
 
-BuildRequires: python2-devel
-BuildRequires: python2-setuptools
-BuildRequires: python2-pbr
+BuildRequires: python%{pyver}-devel
+BuildRequires: python%{pyver}-setuptools
+BuildRequires: python%{pyver}-pbr
 
-Requires:      python2-requests
-Requires:      python2-six
-Requires:      python2-keystoneclient
-Requires:      python2-futures
-
-%description -n python2-%{sname}
-%{common_desc}
-
-%if 0%{?with_python3}
-%package -n python3-%{sname}
-Summary:    Client Library for OpenStack Object Storage API
-%{?python_provide:%python_provide python3-swiftclient}
-
-BuildRequires: python3-devel
-BuildRequires: python3-setuptools
-BuildRequires: python3-pbr
-
-Requires:      python3-requests
-Requires:      python3-six
-Requires:      python3-keystoneclient
-
-%description -n python3-%{sname}
-%{common_desc}
+Requires:      python%{pyver}-requests
+Requires:      python%{pyver}-six
+Requires:      python%{pyver}-keystoneclient
+# Handle python2 exception
+%if %{pyver} == 2
+Requires:      python%{pyver}-futures
 %endif
+
+%description -n python%{pyver}-%{sname}
+%{common_desc}
 
 %package doc
 Summary:    Documentation for OpenStack Object Storage API Client
 Group:      Documentation
 
-BuildRequires: python2-sphinx
-# (TODO) remove oslo-sphinx as BR after a new release is created
-# including https://review.openstack.org/#/c/553433/.
-BuildRequires: python2-oslo-sphinx
-BuildRequires: python2-openstackdocstheme
+BuildRequires: python%{pyver}-sphinx
+BuildRequires: python%{pyver}-openstackdocstheme
 BuildRequires: openstack-macros
-BuildRequires: python2-futures
+# Handle python2 exception
+%if %{pyver} == 2
+BuildRequires: python%{pyver}-futures
+%endif
 
 %description doc
 Documentation for the client library for interacting with Openstack
@@ -79,54 +72,30 @@ Object Storage API.
 %py_req_cleanup
 
 %build
-%py2_build
-%if 0%{?with_python3}
-%py3_build
-%endif
+%{pyver_build}
 
 %install
-%if 0%{?with_python3}
-%py3_install
-mv %{buildroot}%{_bindir}/swift %{buildroot}%{_bindir}/swift-%{python3_version}
-ln -s ./swift-%{python3_version} %{buildroot}%{_bindir}/swift-3
-# Delete tests
-rm -fr %{buildroot}%{python3_sitelib}/swiftclient/tests
-%endif
-
-%py2_install
-mv %{buildroot}%{_bindir}/swift %{buildroot}%{_bindir}/swift-%{python2_version}
-ln -s ./swift-%{python2_version} %{buildroot}%{_bindir}/swift-2
-
-ln -s ./swift-2 %{buildroot}%{_bindir}/swift
+%{pyver_install}
+# Create a versioned binary for backwards compatibility until everything is pure py3
+ln -s swift %{buildroot}%{_bindir}/swift-%{pyver}
 
 # Delete tests
-rm -fr %{buildroot}%{python2_sitelib}/swiftclient/tests
+rm -fr %{buildroot}%{pyver_sitelib}/swiftclient/tests
 
-%{__python2} setup.py build_sphinx -b html
+%{pyver_bin} setup.py build_sphinx -b html
 rm -rf doc/build/html/.{doctrees,buildinfo}
 
-%{__python2} setup.py build_sphinx -b man
+%{pyver_bin} setup.py build_sphinx -b man
 install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
 
-%files -n python2-%{sname}
+%files -n python%{pyver}-%{sname}
 %doc README.rst
 %license LICENSE
-%{python2_sitelib}/swiftclient
-%{python2_sitelib}/*.egg-info
+%{pyver_sitelib}/swiftclient
+%{pyver_sitelib}/*.egg-info
 %{_bindir}/swift
-%{_bindir}/swift-2
-%{_bindir}/swift-%{python2_version}
+%{_bindir}/swift-%{pyver}
 %{_mandir}/man1/*
-
-%if 0%{?with_python3}
-%files -n python3-%{sname}
-%license LICENSE
-%doc README.rst
-%{python3_sitelib}/%{sname}
-%{python3_sitelib}/*.egg-info
-%{_bindir}/swift-3
-%{_bindir}/swift-%{python3_version}
-%endif
 
 %files doc
 %doc doc/build/html
