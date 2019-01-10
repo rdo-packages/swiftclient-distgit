@@ -11,6 +11,8 @@
 # End of macros for py2/py3 compatibility
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
+%global with_doc 1
+
 %global sname swiftclient
 
 %global common_desc \
@@ -52,6 +54,7 @@ Requires:      python%{pyver}-futures
 %description -n python%{pyver}-%{sname}
 %{common_desc}
 
+%if 0%{?with_doc}
 %package doc
 Summary:    Documentation for OpenStack Object Storage API Client
 Group:      Documentation
@@ -67,6 +70,7 @@ BuildRequires: python%{pyver}-futures
 %description doc
 Documentation for the client library for interacting with Openstack
 Object Storage API.
+%endif
 
 %prep
 %setup -q -n %{name}-%{upstream_version}
@@ -85,11 +89,13 @@ ln -s swift %{buildroot}%{_bindir}/swift-%{pyver}
 # Delete tests
 rm -fr %{buildroot}%{pyver_sitelib}/swiftclient/tests
 
+%if 0%{?with_doc}
 %{pyver_bin} setup.py build_sphinx -b html
 rm -rf doc/build/html/.{doctrees,buildinfo}
 
 %{pyver_bin} setup.py build_sphinx -b man
 install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
+%endif
 
 %files -n python%{pyver}-%{sname}
 %doc README.rst
@@ -100,8 +106,9 @@ install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
 %{_bindir}/swift-%{pyver}
 %{_mandir}/man1/*
 
+%if 0%{?with_doc}
 %files doc
 %doc doc/build/html
 %license LICENSE
-
+%endif
 %changelog
