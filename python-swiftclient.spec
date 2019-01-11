@@ -42,6 +42,7 @@ Obsoletes: python2-%{sname} < %{version}-%{release}
 BuildRequires: python%{pyver}-devel
 BuildRequires: python%{pyver}-setuptools
 BuildRequires: python%{pyver}-pbr
+BuildRequires: openstack-macros
 
 Requires:      python%{pyver}-requests
 Requires:      python%{pyver}-six
@@ -61,7 +62,6 @@ Group:      Documentation
 
 BuildRequires: python%{pyver}-sphinx
 BuildRequires: python%{pyver}-openstackdocstheme
-BuildRequires: openstack-macros
 # Handle python2 exception
 %if %{pyver} == 2
 BuildRequires: python%{pyver}-futures
