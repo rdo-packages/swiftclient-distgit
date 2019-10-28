@@ -11,7 +11,7 @@ Client library and command line utility for interacting with Openstack \
 Object Storage API.
 
 Name:       python-swiftclient
-Version:    3.6.0
+Version:    3.6.1
 Release:    1%{?dist}
 Summary:    Client Library for OpenStack Object Storage API
 License:    ASL 2.0
@@ -133,6 +133,9 @@ install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
 %license LICENSE
 
 %changelog
+* Mon Oct 28 2019 RDO <dev@lists.rdoproject.org> 3.6.1-1
+- Update to 3.6.1
+
 * Thu Aug 09 2018 RDO <dev@lists.rdoproject.org> 3.6.0-1
 - Update to 3.6.0
 
