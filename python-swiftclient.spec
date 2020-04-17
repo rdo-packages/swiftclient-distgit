@@ -1,14 +1,3 @@
-# Macros for py2/py3 compatibility
-%if 0%{?fedora} || 0%{?rhel} > 7
-%global pyver %{python3_pkgversion}
-%else
-%global pyver 2
-%endif
-%global pyver_bin python%{pyver}
-%global pyver_sitelib %python%{pyver}_sitelib
-%global pyver_install %py%{pyver}_install
-%global pyver_build %py%{pyver}_build
-# End of macros for py2/py3 compatibility
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 %global with_doc 1
@@ -32,27 +21,21 @@ BuildArch:  noarch
 %description
 %{common_desc}
 
-%package -n python%{pyver}-%{sname}
+%package -n python3-%{sname}
 Summary:    Client Library for OpenStack Object Storage API
-%{?python_provide:%python_provide python%{pyver}-swiftclient}
-%if %{pyver} == 3
+%{?python_provide:%python_provide python3-swiftclient}
 Obsoletes: python2-%{sname} < %{version}-%{release}
-%endif
 
-BuildRequires: python%{pyver}-devel
-BuildRequires: python%{pyver}-setuptools
-BuildRequires: python%{pyver}-pbr
+BuildRequires: python3-devel
+BuildRequires: python3-setuptools
+BuildRequires: python3-pbr
 BuildRequires: openstack-macros
 
-Requires:      python%{pyver}-requests
-Requires:      python%{pyver}-six
-Requires:      python%{pyver}-keystoneclient
-# Handle python2 exception
-%if %{pyver} == 2
-Requires:      python%{pyver}-futures
-%endif
+Requires:      python3-requests
+Requires:      python3-six
+Requires:      python3-keystoneclient
 
-%description -n python%{pyver}-%{sname}
+%description -n python3-%{sname}
 %{common_desc}
 
 %if 0%{?with_doc}
@@ -60,12 +43,8 @@ Requires:      python%{pyver}-futures
 Summary:    Documentation for OpenStack Object Storage API Client
 Group:      Documentation
 
-BuildRequires: python%{pyver}-sphinx
-BuildRequires: python%{pyver}-openstackdocstheme
-# Handle python2 exception
-%if %{pyver} == 2
-BuildRequires: python%{pyver}-futures
-%endif
+BuildRequires: python3-sphinx
+BuildRequires: python3-openstackdocstheme
 
 %description doc
 Documentation for the client library for interacting with Openstack
@@ -79,31 +58,31 @@ Object Storage API.
 %py_req_cleanup
 
 %build
-%{pyver_build}
+%{py3_build}
 
 %install
-%{pyver_install}
+%{py3_install}
 # Create a versioned binary for backwards compatibility until everything is pure py3
-ln -s swift %{buildroot}%{_bindir}/swift-%{pyver}
+ln -s swift %{buildroot}%{_bindir}/swift-3
 
 # Delete tests
-rm -fr %{buildroot}%{pyver_sitelib}/swiftclient/tests
+rm -fr %{buildroot}%{python3_sitelib}/swiftclient/tests
 
 %if 0%{?with_doc}
-%{pyver_bin} setup.py build_sphinx -b html
+%{__python3} setup.py build_sphinx -b html
 rm -rf doc/build/html/.{doctrees,buildinfo}
 
-%{pyver_bin} setup.py build_sphinx -b man
+%{__python3} setup.py build_sphinx -b man
 install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
 %endif
 
-%files -n python%{pyver}-%{sname}
+%files -n python3-%{sname}
 %doc README.rst
 %license LICENSE
-%{pyver_sitelib}/swiftclient
-%{pyver_sitelib}/*.egg-info
+%{python3_sitelib}/swiftclient
+%{python3_sitelib}/*.egg-info
 %{_bindir}/swift
-%{_bindir}/swift-%{pyver}
+%{_bindir}/swift-3
 %{_mandir}/man1/*
 
 %if 0%{?with_doc}
