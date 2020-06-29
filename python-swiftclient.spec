@@ -18,6 +18,8 @@ Source0:    https://tarballs.openstack.org/%{name}/%{name}-%{version}.tar.gz
 
 BuildArch:  noarch
 
+BuildRequires: git
+
 %description
 %{common_desc}
 
@@ -45,6 +47,7 @@ Group:      Documentation
 
 BuildRequires: python3-sphinx
 BuildRequires: python3-openstackdocstheme
+BuildRequires: python3-keystoneauth1
 
 %description doc
 Documentation for the client library for interacting with Openstack
@@ -52,7 +55,7 @@ Object Storage API.
 %endif
 
 %prep
-%setup -q -n %{name}-%{upstream_version}
+%autosetup -n %{name}-%{upstream_version} -S git
 
 # Let RPM handle the dependencies
 %py_req_cleanup
@@ -69,10 +72,10 @@ ln -s swift %{buildroot}%{_bindir}/swift-3
 rm -fr %{buildroot}%{python3_sitelib}/swiftclient/tests
 
 %if 0%{?with_doc}
-%{__python3} setup.py build_sphinx -b html
+sphinx-build -W -b html doc/source doc/build/html
 rm -rf doc/build/html/.{doctrees,buildinfo}
 
-%{__python3} setup.py build_sphinx -b man
+sphinx-build -W -b man doc/source doc/build/man
 install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
 %endif
 
