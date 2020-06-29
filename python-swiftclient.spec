@@ -45,6 +45,7 @@ Group:      Documentation
 
 BuildRequires: python3-sphinx
 BuildRequires: python3-openstackdocstheme
+BuildRequires: python3-keystoneauth1
 
 %description doc
 Documentation for the client library for interacting with Openstack
@@ -69,7 +70,7 @@ ln -s swift %{buildroot}%{_bindir}/swift-3
 rm -fr %{buildroot}%{python3_sitelib}/swiftclient/tests
 
 %if 0%{?with_doc}
-%{__python3} setup.py build_sphinx -b html
+sphinx-build -W -b html doc/source doc/build/html
 rm -rf doc/build/html/.{doctrees,buildinfo}
 
 %{__python3} setup.py build_sphinx -b man
