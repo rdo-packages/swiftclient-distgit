@@ -35,6 +35,7 @@ BuildRequires: openstack-macros
 
 Requires:      python3-requests
 Requires:      python3-six
+# Upstream specify as extra requirement for auth version 2 or 3
 Requires:      python3-keystoneclient
 
 %description -n python3-%{sname}
