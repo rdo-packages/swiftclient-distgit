@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25fa1f44_5bab207d",
+        "filename": "python-swiftclient.spec",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 635
+      },
+      "writtenOn": "2023-07-20T14:11:24Z",
+      "side": 0,
+      "message": "it\u0027s not in the requirements.txt, that\u0027s why we are missing bunch of deps. I\u0027d keep it or add +keystone extra [1] ?\n\n[1] https://github.com/openstack/python-swiftclient/blob/90f565009a2d18d6f4f3660aa57673e99ba638a7/setup.cfg#L42-L44",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 37
+      },
+      "revId": "5625325e7cf089b3d8764fd91fcbbc3334b35995",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    }
+  ]
+}
