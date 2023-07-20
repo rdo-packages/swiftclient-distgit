@@ -1,6 +1,12 @@
 %{!?sources_gpg: %{!?dlrn:%global sources_gpg 1} }
 %global sources_gpg_sign 0x2426b928085a020d8a90d0d879ab7008d0896c8a
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+# we are excluding some BRs from automatic generator
+%global excluded_brs doc8 bandit pre-commit hacking flake8-import-order
+# Exclude sphinx from BRs if docs are disabled
+%if ! 0%{?with_doc}
+%global excluded_brs %{excluded_brs} sphinx openstackdocstheme
+%endif
 
 %global with_doc 1
 
@@ -14,7 +20,7 @@ Name:       python-swiftclient
 Version:    XXX
 Release:    XXX
 Summary:    Client Library for OpenStack Object Storage API
-License:    ASL 2.0
+License:    Apache-2.0
 URL:        http://launchpad.net/python-swiftclient/
 Source0:    https://tarballs.openstack.org/%{name}/%{name}-%{version}.tar.gz
 # Required for tarball sources verification
@@ -38,17 +44,10 @@ BuildRequires: git-core
 
 %package -n python3-%{sname}
 Summary:    Client Library for OpenStack Object Storage API
-%{?python_provide:%python_provide python3-swiftclient}
-Obsoletes: python2-%{sname} < %{version}-%{release}
 
 BuildRequires: python3-devel
-BuildRequires: python3-setuptools
-BuildRequires: python3-pbr
+BuildRequires: pyproject-rpm-macros
 BuildRequires: openstack-macros
-
-Requires:      python3-requests
-# Upstream specify as extra requirement for auth version 2 or 3
-Requires:      python3-keystoneclient
 
 %description -n python3-%{sname}
 %{common_desc}
@@ -57,10 +56,6 @@ Requires:      python3-keystoneclient
 %package doc
 Summary:    Documentation for OpenStack Object Storage API Client
 Group:      Documentation
-
-BuildRequires: python3-sphinx
-BuildRequires: python3-openstackdocstheme
-BuildRequires: python3-keystoneauth1
 
 %description doc
 Documentation for the client library for interacting with Openstack
@@ -74,14 +69,34 @@ Object Storage API.
 %endif
 %autosetup -n %{name}-%{upstream_version} -S git
 
-# Let RPM handle the dependencies
-%py_req_cleanup
+sed -i /^[[:space:]]*-c{env:.*_CONSTRAINTS_FILE.*/d tox.ini
+sed -i "s/^deps = -c{env:.*_CONSTRAINTS_FILE.*/deps =/" tox.ini
+sed -i /^minversion.*/d tox.ini
+sed -i /^requires.*virtualenv.*/d tox.ini
+sed -i /.*keystone]/d tox.ini
+
+# Exclude some bad-known BRs
+for pkg in %{excluded_brs}; do
+  for reqfile in doc/requirements.txt test-requirements.txt; do
+    if [ -f $reqfile ]; then
+      sed -i /^${pkg}.*/d $reqfile
+    fi
+  done
+done
+
+# Automatic BR generation
+%generate_buildrequires
+%if 0%{?with_doc}
+  %pyproject_buildrequires -t -e %{default_toxenv},docs
+%else
+  %pyproject_buildrequires -t -e %{default_toxenv}
+%endif
 
 %build
-%{py3_build}
+%pyproject_wheel
 
 %install
-%{py3_install}
+%pyproject_install
 # Create a versioned binary for backwards compatibility until everything is pure py3
 ln -s swift %{buildroot}%{_bindir}/swift-3
 
@@ -89,7 +104,7 @@ ln -s swift %{buildroot}%{_bindir}/swift-3
 rm -fr %{buildroot}%{python3_sitelib}/swiftclient/tests
 
 %if 0%{?with_doc}
-sphinx-build -W -b html doc/source doc/build/html
+%tox -e docs
 rm -rf doc/build/html/.{doctrees,buildinfo}
 
 sphinx-build -W -b man doc/source doc/build/man
@@ -100,7 +115,7 @@ install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/swiftclient
-%{python3_sitelib}/*.egg-info
+%{python3_sitelib}/*.dist-info
 %{_bindir}/swift
 %{_bindir}/swift-3
 %{_mandir}/man1/*
