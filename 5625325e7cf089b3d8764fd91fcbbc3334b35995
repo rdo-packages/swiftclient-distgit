@@ -22,6 +22,30 @@
       },
       "revId": "5625325e7cf089b3d8764fd91fcbbc3334b35995",
       "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43514991_3bcba737",
+        "filename": "python-swiftclient.spec",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 128
+      },
+      "writtenOn": "2023-07-21T06:26:54Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "25fa1f44_5bab207d",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 37
+      },
+      "revId": "5625325e7cf089b3d8764fd91fcbbc3334b35995",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
     }
   ]
 }
