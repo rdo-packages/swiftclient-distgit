@@ -105,6 +105,9 @@ ln -s swift %{buildroot}%{_bindir}/swift-3
 rm -fr %{buildroot}%{python3_sitelib}/swiftclient/tests
 
 %if 0%{?with_doc}
+export LANG=en_US.utf-8
+export LC_ALL=C
+export LANGUAGE=en_US:en
 %tox -e docs
 rm -rf doc/build/html/.{doctrees,buildinfo}
 
